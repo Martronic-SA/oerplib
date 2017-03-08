@@ -440,7 +440,11 @@ class OERP(object):
         if args is None:
             args = []
         context = context or self._context
-        return self.execute(model, 'search', args, offset, limit, order,
+        if v(self.version) >= v('9.0'):
+            return self.execute(model, 'search', args, offset, limit, order,
+                                count, context)
+        else:
+            return self.execute(model, 'search', args, offset, limit, order,
                             context, count)
 
     def create(self, model, vals, context=None):
